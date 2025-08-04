@@ -1,31 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Countdown</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Countdown to Dec 9, 2025</title>
   <style>
-    body { text-align: center; font-family: sans-serif; font-size: 2em; margin-top: 40px; }
+    body {
+      font-family: sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    .timer {
+      display: flex;
+      gap: 15px;
+      font-size: 1.5em;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .time-segment {
+      background: #215882;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      min-width: 80px;
+      text-align: center;
+    }
+    .label {
+      display: block;
+      font-size: 0.6em;
+      margin-top: 4px;
+      opacity: 0.8;
+    }
   </style>
 </head>
 <body>
-  <div id="countdown"></div>
+  <h1>Countdown to Dec 9, 2025 at 9:00 PM</h1>
+  <div class="timer" id="countdown">
+    <!-- Segments go here -->
+  </div>
+
   <script>
-    const targetDate = new Date(2025, 11, 9, 21, 0, 0);
+    const targetDate = new Date(2025, 11, 9, 21, 0, 0); // Dec is month 11
+
     function updateCountdown() {
       const now = new Date();
-      const diff = targetDate - now;
-      if (diff <= 0) {
-        document.getElementById("countdown").innerHTML = "Time's up!";
-        clearInterval(timer);
-        return;
-      }
-      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const m = Math.floor((diff / (1000 * 60)) % 60);
-      const s = Math.floor((diff / 1000) % 60);
-      document.getElementById("countdown").innerText = `${d}d ${h}h ${m}m ${s}s`;
+      let diff = Math.max(0, targetDate - now);
+
+      const seconds = Math.floor(diff / 1000);
+      const minutes = Math.floor(seconds / 60);
+      const hours = Math.floor(minutes / 60);
+      const days = Math.floor(hours / 24);
+      const weeks = Math.floor(days / 7);
+      const months = Math.floor(days / 30.4375); // average month length
+
+      const remWeeks = weeks % 4;
+      const remDays = days % 7;
+      const remHours = hours % 24;
+      const remMinutes = minutes % 60;
+      const remSeconds = seconds % 60;
+
+      document.getElementById("countdown").innerHTML = `
+        <div class="time-segment">${months}<span class="label">Months</span></div>
+        <div class="time-segment">${remWeeks}<span class="label">Weeks</span></div>
+        <div class="time-segment">${remDays}<span class="label">Days</span></div>
+        <div class="time-segment">${remHours}<span class="label">Hours</span></div>
+        <div class="time-segment">${remMinutes}<span class="label">Minutes</span></div>
+        <div class="time-segment">${remSeconds}<span class="label">Seconds</span></div>
+      `;
     }
+
     updateCountdown();
-    const timer = setInterval(updateCountdown, 1000);
+    setInterval(updateCountdown, 1000);
   </script>
 </body>
 </html>
