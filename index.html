@@ -45,12 +45,19 @@
 </head>
 <body>
   <h1>Countdown to Dec 9, 2025 at 9:00 PM</h1>
+
   <div class="timer" id="countdown">
-    <!-- Segments go here -->
-  </div>
+    </div>
+
+  <button id="refreshBtn" style="margin-top: 20px; padding: 8px 12px; font-size: 1em; cursor: pointer;">Refresh Timer</button>
 
   <script>
     const targetDate = new Date(2025, 11, 9, 21, 0, 0); // Dec is month 11
+
+    const refreshButton = document.getElementById("refreshBtn");
+    refreshButton.addEventListener("click", function() {
+      location.reload(true); // true forces a reload from the server
+    });
 
     function updateCountdown() {
       const now = new Date();
